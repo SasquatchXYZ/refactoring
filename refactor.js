@@ -12,11 +12,8 @@ function statement(invoice, plays) {
     result += `You earned ${totalVolumeCredits()} credits\n`;
     return result;
 
-    function volumeCreditsFor(aPerformance) {
-        let result = 0;
-        result += Math.max(aPerformance.audience - 30, 0);
-        if ("comedy" === playFor(aPerformance).type) result += Math.floor(aPerformance.audience / 5);
-        return result;
+    function playFor(aPerformance) {
+        return plays[aPerformance.playID];
     }
 
     function totalVolumeCredits() {
@@ -25,6 +22,13 @@ function statement(invoice, plays) {
             volumeCredits += volumeCreditsFor(perf);
         }
         return volumeCredits;
+    }
+
+    function volumeCreditsFor(aPerformance) {
+        let result = 0;
+        result += Math.max(aPerformance.audience - 30, 0);
+        if ("comedy" === playFor(aPerformance).type) result += Math.floor(aPerformance.audience / 5);
+        return result;
     }
 
     function amountFor(aPerformance) {
@@ -47,10 +51,6 @@ function statement(invoice, plays) {
                 throw new Error(`unknown type: ${playFor(aPerformance).type}`);
         }
         return result;
-    }
-
-    function playFor(aPerformance) {
-        return plays[aPerformance.playID];
     }
 
     function usd(aNumber) {
