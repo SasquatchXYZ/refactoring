@@ -10,10 +10,6 @@ function statement(invoice, plays) {
     result += `You earned ${totalVolumeCredits()} credits\n`;
     return result;
 
-    function playFor(aPerformance) {
-        return plays[aPerformance.playID];
-    }
-
     function totalAmount() {
         let result = 0;
         for (let perf of invoice.performances) {
@@ -30,11 +26,23 @@ function statement(invoice, plays) {
         return result;
     }
 
+    function usd(aNumber) {
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2
+        }).format(aNumber / 100);
+    }
+
     function volumeCreditsFor(aPerformance) {
         let result = 0;
         result += Math.max(aPerformance.audience - 30, 0);
         if ("comedy" === playFor(aPerformance).type) result += Math.floor(aPerformance.audience / 5);
         return result;
+    }
+
+    function playFor(aPerformance) {
+        return plays[aPerformance.playID];
     }
 
     function amountFor(aPerformance) {
@@ -59,13 +67,6 @@ function statement(invoice, plays) {
         return result;
     }
 
-    function usd(aNumber) {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2
-        }).format(aNumber / 100);
-    }
 }
 
 
